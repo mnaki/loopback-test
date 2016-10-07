@@ -1,0 +1,36 @@
+{
+  "name": "Video",
+  "plural": "Videos",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "ownerId": {
+      "type": "number",
+      "required": true
+    },
+    "length": {
+      "type": "number",
+      "required": true
+    },
+    "size": {
+      "type": "number",
+      "required": true
+    },
+    "isPublic": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "filename": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

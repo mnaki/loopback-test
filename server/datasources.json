@@ -1,0 +1,18 @@
+{
+  "mysql": {
+    "host": "89.3.189.216",
+    "port": 3306,
+    "url": "mysql://naki:123456@89.3.189.216:3306/db_hypermegatube",
+    "database": "db_hypermegatube",
+    "password": "123456",
+    "name": "mysql",
+    "user": "naki",
+    "connector": "mysql"
+  },
+  "storage": {
+    "name": "storage",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./server/storage"
+  }
+}

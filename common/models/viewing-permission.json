@@ -1,0 +1,43 @@
+{
+  "name": "ViewingPermission",
+  "plural": "ViewingPermissions",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "videoId": {
+      "type": "number",
+      "required": true
+    },
+    "ownerId": {
+      "type": "number",
+      "required": true
+    },
+    "recipientId": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "owner": {
+      "type": "belongsTo",
+      "model": "User",
+      "foreignKey": "ownerId"
+    },
+    "recipient": {
+      "type": "belongsTo",
+      "model": "User",
+      "foreignKey": "recipientId"
+    },
+    "video": {
+      "type": "belongsTo",
+      "model": "Video",
+      "foreignKey": "videoId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

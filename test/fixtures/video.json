@@ -1,0 +1,18 @@
+[
+  {
+    "ownerId": 1,
+    "length": 0,
+    "size": 0,
+    "isPublic": false,
+    "filename": "f2c39446-8cbd-11e6-ae22-56b6b6499611.webm",
+    "id": 1
+  },
+  {
+    "ownerId": 2,
+    "length": 0,
+    "size": 0,
+    "isPublic": true,
+    "filename": "f2c39446-8cbd-11e6-ae22-56b6b6499611.webm",
+    "id": 2
+  }
+]

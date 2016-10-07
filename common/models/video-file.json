@@ -1,0 +1,11 @@
+{
+  "name": "VideoFile",
+  "plural": "VideoFiles",
+  "base": "Model",
+  "options": {},
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
