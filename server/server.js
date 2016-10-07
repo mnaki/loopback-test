@@ -2,14 +2,14 @@
 
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-var bodyParser = require('body-parser');
-var multer = require('multer');
+// var bodyParser = require('body-parser');
+// var multer = require('multer');
 
 var app = module.exports = loopback();
 
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(multer().any()); // for parsing multipart/form-data
+// app.use(bodyParser.json()); // for parsing application/json
+// app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+// app.use(multer().any()); // for parsing multipart/form-data
 
 app.start = function() {
   // start the web server

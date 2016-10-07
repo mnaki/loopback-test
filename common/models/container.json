@@ -1,6 +1,6 @@
 {
-  "name": "VideoFile",
-  "plural": "VideoFiles",
+  "name": "Container",
+  "plural": "Containers",
   "base": "Model",
   "options": {},
   "properties": {},

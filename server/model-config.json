@@ -21,7 +21,7 @@
     "dataSource": "mysql",
     "public": true
   },
-  "VideoFile": {
+  "Container": {
     "dataSource": "storage",
     "public": true
   },

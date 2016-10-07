@@ -3,11 +3,11 @@
     <script src="./dropzone-4.3.0/dist/dropzone.js" type="text/javascript"></script>
 </head>
 <body>
-    <form id="dropzone" action="/api/VideoFiles/video-container/upload" class="dropzone"></form>
+    <form id="dropzone" action="/api/Containers/video-container/upload" class="dropzone"></form>
     <script type="text/javascript">
         Dropzone.options.dropzone = {
             "renameFilename": "file.webm", // The name that will be used to transfer the file
-            "maxFilesize": 2, // MB
+            "maxFilesize": 20, // MB
             "accept": function(file, done) {
                 file.name = 'xd.webm'
                 if (file.name == "justinbieber.jpg") {
