@@ -1,31 +1,22 @@
 {
-  "name": "User",
-  "plural": "Users",
-  "base": "PersistedModel",
+  "name": "Client",
+  "plural": "Clients",
+  "base": "User",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
-  "properties": {
-    "username": {
-      "type": "string",
-      "required": true
-    },
-    "password": {
-      "type": "string",
-      "required": true
-    },
-    "fullname": {
-      "type": "string",
-      "required": true
-    },
-    "email": {
-      "type": "string",
-      "required": true
-    }
-  },
+  "properties": {},
   "validations": [],
   "relations": {
+    "accessTokens": {
+      "type": "hasMany",
+      "model": "ClientToken",
+      "foreignKey": "userId",
+      "options": {
+        "disableInclude": true
+      }
+    },
     "videos": {
       "type": "hasMany",
       "model": "Video",

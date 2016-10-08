@@ -13,7 +13,7 @@
       "./mixins"
     ]
   },
-  "User": {
+  "Client": {
     "dataSource": "mysql",
     "public": true
   },
@@ -26,6 +26,10 @@
     "public": true
   },
   "ViewingPermission": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "ClientToken": {
     "dataSource": "mysql",
     "public": true
   }

@@ -24,12 +24,12 @@
   "relations": {
     "owner": {
       "type": "belongsTo",
-      "model": "User",
+      "model": "Client",
       "foreignKey": "ownerId"
     },
     "recipient": {
       "type": "belongsTo",
-      "model": "User",
+      "model": "Client",
       "foreignKey": "recipientId"
     },
     "video": {

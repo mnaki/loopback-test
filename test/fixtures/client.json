@@ -1,0 +1,14 @@
+[
+  {
+    "realm": null,
+    "username": null,
+    "credentials": null,
+    "challenges": null,
+    "email": "foo@bar.com",
+    "emailVerified": null,
+    "status": null,
+    "created": null,
+    "lastUpdated": null,
+    "id": 1
+  }
+]
