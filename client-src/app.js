@@ -24,11 +24,26 @@ class VideoStore {
   videos = observable([])
 
   fetchVideos() {
-    fetch('/api/Videos').then((res)=> {
-      console.log('fetched')
+    fetch('/api/Videos').then((res) => {
       return res.json()
     }).then((res) => {
       this.videos.replace(res)
+    })
+  }
+
+  deleteVIdeo(video) {
+    var request = new Request('/api/Videos/' + video.id, {
+      method: 'DELETE',
+      mode: 'cors',
+      redirect: 'follow',
+      headers: new Headers({
+        'Content-Type': 'text/json'
+      })
+    })
+    fetch(request).then((res) => {
+      return res.json()
+    }).then((res) => {
+      this.videos.remove(video)
     })
   }
 
@@ -39,7 +54,6 @@ var videoStore = window.store = new VideoStore()
 class Videos extends React.Component {
 
   render() {
-    console.log('rendering')
     return (
       <div className="container">
         <h2>Videos</h2>
@@ -55,8 +69,9 @@ class VideoList extends React.Component {
 
   constructor(props) {
     super(props)
+    props.store.fetchVideos()
     observe(videoStore.videos, (change) => {
-      this.forceUpdate({})
+      this.forceUpdate()
     })
   }
 
@@ -64,18 +79,24 @@ class VideoList extends React.Component {
     this.props.store.fetchVideos()
   }
 
+  deleteVideo(video) {
+    this.props.store.deleteVIdeo(video)
+  }
+
   render() {
-    console.log('rendering with ', this.props.store)
     return (
       <div className="col sm-12">
         <button type="button" className="btn btn-default" onClick={this.refreshVideos.bind(this)}>
           Refresh
         </button>
         {
-          this.props.store.videos.map(function (video, i) {
+          this.props.store.videos.map((video, i) => {
             return (
               <div key={video.id}>
                 <h3>{video.filename}</h3>
+                <button type="button" className="btn btn-danger" onClick={this.deleteVideo.bind(this, video)}>
+                  Delete
+                </button>
                 <div className="col sm-2">
                   <video data-controls data-autoplay>
                   <source src={'/api/Containers/video-container/download/' + video.filename} />
