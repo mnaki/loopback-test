@@ -43,6 +43,18 @@ class VideoStore {
     fetch(request).then((res) => {
       return res.json()
     }).then((res) => {
+      var request = new Request('/api/Containers/video-container/files/' + video.filename, {
+        method: 'DELETE',
+        mode: 'cors',
+        redirect: 'follow',
+        headers: new Headers({
+          'Content-Type': 'text/json'
+        })
+      })
+      fetch(request).then((res) => {
+        return res.json()
+      })
+
       this.videos.remove(video)
     })
   }
@@ -98,8 +110,8 @@ class VideoList extends React.Component {
                   Delete
                 </button>
                 <div className="col sm-2">
-                  <video data-controls data-autoplay>
-                  <source src={'/api/Containers/video-container/download/' + video.filename} />
+                  <video width="300" data-controls data-autoplay>
+                    <source src={'/api/Containers/video-container/download/' + video.filename} />
                   </video>
                 </div>
               </div>
