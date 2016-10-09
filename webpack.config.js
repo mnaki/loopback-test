@@ -1,13 +1,13 @@
 var path = require('path');
 
 module.exports = {
-  context: path.join(__dirname, 'client'),
+  context: path.join(__dirname, 'client-src'),
   entry: {
     javascript: './app.js',
     html: './index.html'
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'client'),
     filename: 'bundle.js'
   },
   module: {
@@ -26,6 +26,20 @@ module.exports = {
     ]
   },
   devServer: {
-    historyApiFallback: true
+    hot: true,
+    port: 4000,
+    historyApiFallback: true,
+    proxy: {
+      "/api": {
+        "target": {
+          "host": "action-js.dev",
+          "protocol": 'http:',
+          "port": 3000
+        },
+        ignorePath: false,
+        changeOrigin: true,
+        secure: false
+      }
+    }
   }
 };
