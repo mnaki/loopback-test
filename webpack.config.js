@@ -12,12 +12,21 @@ module.exports = {
   },
   module: {
     loaders: [
+      {
+        loader: "babel",
+        include: [ path.resolve(__dirname, "client-src") ],
+        test: /\.jsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        query: {
+          cacheDirectory: true,
+          plugins: ['transform-decorators-legacy', 'transform-runtime'],
+          presets: ['es2015', 'stage-0', 'react']
+        }
+      },
       { test: require.resolve("react"), loader: "expose?React" },
       { test: require.resolve("jquery"), loader: "expose?$!expose?jQuery" },
       { test: /\.less$/, loader: 'style!css!less' },
-      { test: /\.js$/, loader: 'babel' },
       { test: /\.html$/, loader: 'file?name=[name].[ext]' },
-      { test: /\.jsx?$/, exclude: /(node_modules|bower_components)/, loader: 'babel' },
       { test: /\.css$/, loader: 'style-loader!css-loader' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
       { test: /\.(woff|woff2)$/, loader:"url?prefix=font/&limit=5000" },
