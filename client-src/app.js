@@ -65,6 +65,13 @@ var videoStore = window.store = new VideoStore()
 
 class Videos extends React.Component {
 
+  componentDidMount() {
+    var myDropzone = new Dropzone("#my-awesome-dropzone");
+    myDropzone.on("complete", function (file) {
+      videoStore.fetchVideos()
+    });
+  }
+
   render() {
     return (
       <div className="container">
@@ -77,12 +84,14 @@ class Videos extends React.Component {
 
 }
 
+Dropzone.autoDiscover = false;
+
 class VideoList extends React.Component {
 
   constructor(props) {
     super(props)
     props.store.fetchVideos()
-    observe(videoStore.videos, (change) => {
+    observe(props.store.videos, (change) => {
       this.forceUpdate()
     })
   }
