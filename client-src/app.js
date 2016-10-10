@@ -8,6 +8,7 @@ import './dropzone/basic.min.css'
 import './dropzone/dropzone.min.css'
 import ReactDOM from 'react-dom'
 import {observable, observe, extendObservable} from 'mobx'
+import Webcam from 'react-webcam'
 
 var Home = React.createClass({
   render() {
@@ -65,26 +66,73 @@ var videoStore = window.store = new VideoStore()
 
 class Videos extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
   componentDidMount() {
-    var myDropzone = new Dropzone("#my-awesome-dropzone");
-    myDropzone.on("complete", function (file) {
-      videoStore.fetchVideos()
-    });
+    console.log('mounting')
+    this.setState({
+      dropzone: new Dropzone("#my-awesome-dropzone", {
+        url: "/api/Containers/video-container/upload",
+        renameFilename: function (filename) {
+            return new Date().getTime() + '_' + ".jpeg";
+        }
+      })
+    }, this.initDropzone)
+  }
+
+  initDropzone() {
+    this.state.dropzone.on("complete", (file) => videoStore.fetchVideos())
   }
 
   render() {
     return (
       <div className="container">
         <h2>Videos</h2>
-        <form action="/api/Containers/video-container/upload" className="dropzone" id="my-awesome-dropzone"></form>
+        <Webcam ref="webcam" screenshotFormat='image/jpeg' audio="false" muted="true" />
+        <button type="button" className="btn btn-default" onClick={this.screenshot.bind(this)}>Screenshot</button>
+        <form className="dropzone" id="my-awesome-dropzone"></form>
         <VideoList store={videoStore} />
       </div>
     )
   }
 
+  dataURItoBlob(dataURI) {
+    'use strict'
+    var byteString,
+        mimestring
+
+    if(dataURI.split(',')[0].indexOf('base64') !== -1 ) {
+        byteString = atob(dataURI.split(',')[1])
+    } else {
+        byteString = decodeURI(dataURI.split(',')[1])
+    }
+
+    mimestring = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+    var content = new Array();
+    for (var i = 0; i < byteString.length; i++) {
+        content[i] = byteString.charCodeAt(i)
+    }
+
+    return new Blob([new Uint8Array(content)], {type: mimestring});
 }
 
-Dropzone.autoDiscover = false;
+  screenshot() {
+    let imageData = this.refs.webcam.getScreenshot()
+    let myFile = {
+      name: 'screenshot-image.jpeg',
+      size: 0
+    }
+    this.state.dropzone.emit("thumbnail", myFile, imageData)
+    this.state.dropzone.addFile(this.dataURItoBlob(imageData))
+  }
+
+}
+
+Dropzone.autoDiscover = false
 
 class VideoList extends React.Component {
 
