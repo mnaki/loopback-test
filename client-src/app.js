@@ -214,7 +214,7 @@ class VideoList extends React.Component {
             return (
               <div key={video.id} className="col-sm-12 col-md-6">
                 <div className="col-sm-12">
-                  <Video className="col-sm-12 col-md-6" autoPlay={true} muted={true}
+                  <Video autoPlay={true} muted={true}
                     poster={"/api/Containers/video-container/download/" + video.filename}
                     onCanPlayThrough={() => {
                       // console.log("Can play")
