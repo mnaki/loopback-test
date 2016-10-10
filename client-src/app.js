@@ -112,7 +112,9 @@ class Videos extends React.Component {
             </button>
           }
 
-        <form className="dropzone" id="my-awesome-dropzone"></form>
+        <div className="col-sm-12">
+          <form className="col-sm-12 dropzone" id="my-awesome-dropzone"></form>
+        </div>
         <VideoList store={videoStore} />
       </div>
     )

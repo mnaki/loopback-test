@@ -18,4 +18,6 @@ coverage
 node_modules
 npm-debug.log
 server/storage/*
+_node_modules
 __node_modules
+npm-debug*
