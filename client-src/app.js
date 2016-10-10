@@ -14,6 +14,8 @@ import "./dropzone/dropzone.min.css"
 import {observable, observe, extendObservable} from "mobx"
 
 import Webcam from "react-webcam"
+import Video from "react-html5video"
+import "react-html5video/dist/ReactHtml5Video.css"
 
 /****************************************/
 
@@ -94,7 +96,6 @@ class Videos extends React.Component {
       <div className="container">
         <h2>Videos</h2>
         <Webcam ref="webcam" screenshotFormat="image/jpeg" audio={false} muted={true} />
-        <button type="button" className="btn btn-default" onClick={this.screenshot.bind(this)}>Screenshot</button>
         <button type="button" className="btn btn-default" onClick={this.startRecording.bind(this)}>Start recording</button>
         <button type="button" className="btn btn-default" onClick={this.stopRecording.bind(this)}>Stop recording</button>
         <form className="dropzone" id="my-awesome-dropzone"></form>
@@ -193,9 +194,14 @@ class VideoList extends React.Component {
                   Delete
                 </button>
                 <div className="col sm-2">
-                  <video width="300" data-controls data-autoplay>
-                    <source src={"/api/Containers/video-container/download/" + video.filename} />
-                  </video>
+                  <Video controls autoPlay loop muted
+                    poster={"/api/Containers/video-container/download/" + video.filename}
+                    onCanPlayThrough={() => {
+                      console.log("Can play")
+                    }}
+                  >
+                    <source src={"/api/Containers/video-container/download/" + video.filename}  type="video/webm" />
+                  </Video>
                 </div>
               </div>
             )

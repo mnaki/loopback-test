@@ -61,6 +61,7 @@
     "react-dom": ">=15.3.2",
     "react-dropzone": "^3.6.0",
     "react-dropzone-component": "^1.2.0",
+    "react-html5video": "^1.2.12",
     "react-router": "^1.0.0-rc1",
     "react-webcam": "0.0.14",
     "serve-favicon": "^2.0.1",
