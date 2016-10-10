@@ -12,6 +12,7 @@ module.exports = {
   },
   module: {
     loaders: [
+      { test: /\.json$/, loader: 'json' },
       {
         loader: "babel",
         include: [ path.resolve(__dirname, "client-src") ],

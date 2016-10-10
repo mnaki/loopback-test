@@ -1,16 +1,23 @@
 import React from "react"
 import { Router, Route, IndexRoute, Link, History } from "react-router"
-import createBrowserHistory from 'history/lib/createBrowserHistory'
-import $ from "jquery"
-import 'bootstrap/dist/css/bootstrap.css'
-import Dropzone from './dropzone/dropzone.min.js'
-import './dropzone/basic.min.css'
-import './dropzone/dropzone.min.css'
-import ReactDOM from 'react-dom'
-import {observable, observe, extendObservable} from 'mobx'
-import Webcam from 'react-webcam'
+import createBrowserHistory from "history/lib/createBrowserHistory"
+import ReactDOM from "react-dom"
 
-var Home = React.createClass({
+import $ from "jquery"
+
+import "bootstrap/dist/css/bootstrap.css"
+
+import Dropzone from "./dropzone/dropzone.min.js"
+import "./dropzone/basic.min.css"
+import "./dropzone/dropzone.min.css"
+
+import {observable, observe, extendObservable} from "mobx"
+
+import Webcam from "react-webcam"
+
+/****************************************/
+
+let Home = React.createClass({
   render() {
     return (
       <div>
@@ -25,7 +32,7 @@ class VideoStore {
   videos = observable([])
 
   fetchVideos() {
-    fetch('/api/Videos').then((res) => {
+    fetch("/api/Videos").then((res) => {
       return res.json()
     }).then((res) => {
       this.videos.replace(res)
@@ -33,23 +40,23 @@ class VideoStore {
   }
 
   deleteVIdeo(video) {
-    var request = new Request('/api/Videos/' + video.id, {
-      method: 'DELETE',
-      mode: 'cors',
-      redirect: 'follow',
+    let request = new Request("/api/Videos/" + video.id, {
+      method: "DELETE",
+      mode: "cors",
+      redirect: "follow",
       headers: new Headers({
-        'Content-Type': 'text/json'
+        "Content-Type": "text/json"
       })
     })
     fetch(request).then((res) => {
       return res.json()
     }).then((res) => {
-      var request = new Request('/api/Containers/video-container/files/' + video.filename, {
-        method: 'DELETE',
-        mode: 'cors',
-        redirect: 'follow',
+      let request = new Request("/api/Containers/video-container/files/" + video.filename, {
+        method: "DELETE",
+        mode: "cors",
+        redirect: "follow",
         headers: new Headers({
-          'Content-Type': 'text/json'
+          "Content-Type": "text/json"
         })
       })
       fetch(request).then((res) => {
@@ -62,7 +69,7 @@ class VideoStore {
 
 }
 
-var videoStore = window.store = new VideoStore()
+let videoStore = window.store = new VideoStore()
 
 class Videos extends React.Component {
 
@@ -72,27 +79,24 @@ class Videos extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mounting')
-    this.setState({
-      dropzone: new Dropzone("#my-awesome-dropzone", {
-        url: "/api/Containers/video-container/upload",
-        renameFilename: function (filename) {
-            return new Date().getTime() + '_' + ".jpeg";
-        }
-      })
-    }, this.initDropzone)
-  }
-
-  initDropzone() {
-    this.state.dropzone.on("complete", (file) => videoStore.fetchVideos())
+    console.log("mounting")
+    this.dropzone = new Dropzone("#my-awesome-dropzone", {
+      url: "/api/Containers/video-container/upload",
+      renameFilename: function (filename) {
+          return new Date().getTime() + "_" + ".webm";
+      }
+    })
+    this.dropzone.on("complete", (file) => videoStore.fetchVideos())
   }
 
   render() {
     return (
       <div className="container">
         <h2>Videos</h2>
-        <Webcam ref="webcam" screenshotFormat='image/jpeg' audio="false" muted="true" />
+        <Webcam ref="webcam" screenshotFormat="image/jpeg" audio={false} muted={true} />
         <button type="button" className="btn btn-default" onClick={this.screenshot.bind(this)}>Screenshot</button>
+        <button type="button" className="btn btn-default" onClick={this.startRecording.bind(this)}>Start recording</button>
+        <button type="button" className="btn btn-default" onClick={this.stopRecording.bind(this)}>Stop recording</button>
         <form className="dropzone" id="my-awesome-dropzone"></form>
         <VideoList store={videoStore} />
       </div>
@@ -100,34 +104,56 @@ class Videos extends React.Component {
   }
 
   dataURItoBlob(dataURI) {
-    'use strict'
-    var byteString,
+    let byteString,
         mimestring
 
-    if(dataURI.split(',')[0].indexOf('base64') !== -1 ) {
-        byteString = atob(dataURI.split(',')[1])
+    if (dataURI.split(",")[0].indexOf("base64") !== -1 ) {
+        byteString = atob(dataURI.split(",")[1])
     } else {
-        byteString = decodeURI(dataURI.split(',')[1])
+        byteString = decodeURI(dataURI.split(",")[1])
     }
 
-    mimestring = dataURI.split(',')[0].split(':')[1].split(';')[0]
+    mimestring = dataURI.split(",")[0].split(":")[1].split(";")[0]
 
-    var content = new Array();
-    for (var i = 0; i < byteString.length; i++) {
+    let content = new Array();
+    for (let i = 0; i < byteString.length; i++) {
         content[i] = byteString.charCodeAt(i)
     }
 
     return new Blob([new Uint8Array(content)], {type: mimestring});
-}
+  }
 
   screenshot() {
     let imageData = this.refs.webcam.getScreenshot()
     let myFile = {
-      name: 'screenshot-image.jpeg',
-      size: 0
+      name: "screenshot-image.jpeg"
     }
-    this.state.dropzone.emit("thumbnail", myFile, imageData)
-    this.state.dropzone.addFile(this.dataURItoBlob(imageData))
+    this.dropzone.emit("thumbnail", myFile, imageData)
+    this.dropzone.addFile(this.dataURItoBlob(imageData))
+  }
+
+  startRecording() {
+    console.log("start recording")
+    this.mediaRecorder = new MediaRecorder(this.refs.webcam.stream)
+    console.log(this.mediaRecorder)
+    this.chunks = []
+    this.mediaRecorder.ondataavailable = (e) => this.chunks.push(e.data)
+    this.mediaRecorder.start()
+
+    this.mediaRecorder.onstop = (e) => {
+      console.log("record stoppted")
+      let blob = new Blob(this.chunks, { "type" : "video/webm" })
+      this.chunks = []
+      let videoURL = window.URL.createObjectURL(blob)
+      // TODO: Ajouter une miniature de prev pour les videos
+      // this.dropzone.emit("thumbnail", {}, this.refs.webcam.getScreenshot())
+      this.dropzone.addFile(blob)
+    }
+  }
+
+  stopRecording() {
+    console.log("stop recording")
+    this.mediaRecorder.stop()
   }
 
 }
@@ -168,7 +194,7 @@ class VideoList extends React.Component {
                 </button>
                 <div className="col sm-2">
                   <video width="300" data-controls data-autoplay>
-                    <source src={'/api/Containers/video-container/download/' + video.filename} />
+                    <source src={"/api/Containers/video-container/download/" + video.filename} />
                   </video>
                 </div>
               </div>
@@ -181,7 +207,7 @@ class VideoList extends React.Component {
 
 }
 
-var NavBar = React.createClass({
+let NavBar = React.createClass({
   render: function () {
     return (
       <nav className="navbar navbar-default navbar-static-top">
@@ -199,7 +225,7 @@ var NavBar = React.createClass({
   }
 })
 
-var App = React.createClass({
+let App = React.createClass({
   render: function () {
     return (
       <div>
