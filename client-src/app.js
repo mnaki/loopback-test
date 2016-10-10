@@ -17,6 +17,8 @@ import Webcam from "react-webcam"
 import Video from "react-html5video"
 import "react-html5video/dist/ReactHtml5Video.css"
 
+import "./gonzocons.css"
+
 /****************************************/
 
 let Home = React.createClass({
@@ -77,7 +79,9 @@ class Videos extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      isRecording: false
+    }
   }
 
   componentDidMount() {
@@ -93,11 +97,21 @@ class Videos extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container col-sm-12">
         <h2>Videos</h2>
-        <Webcam ref="webcam" screenshotFormat="image/jpeg" audio={true} muted={true} />
-        <button type="button" className="btn btn-default" onClick={this.startRecording.bind(this)}>Start recording</button>
-        <button type="button" className="btn btn-default" onClick={this.stopRecording.bind(this)}>Stop recording</button>
+        <Webcam className="col-sm-12" ref="webcam" screenshotFormat="image/jpeg" audio={true} />
+
+          { !this.state.isRecording &&
+            <button type="button" className="btn btn-default btn-lg" onClick={this.startRecording.bind(this)}>
+              <span className="icon-video"></span> Start
+            </button>
+          }
+          { !!this.state.isRecording &&
+            <button type="button" className="btn btn-default btn-lg" onClick={this.stopRecording.bind(this)}>
+              <span className="icon-check"></span> Stop
+            </button>
+          }
+
         <form className="dropzone" id="my-awesome-dropzone"></form>
         <VideoList store={videoStore} />
       </div>
@@ -135,6 +149,9 @@ class Videos extends React.Component {
 
   startRecording() {
     console.log("start recording")
+    this.setState({
+      isRecording: true
+    })
     this.mediaRecorder = new MediaRecorder(this.refs.webcam.stream)
     console.log(this.mediaRecorder)
     this.chunks = []
@@ -143,6 +160,9 @@ class Videos extends React.Component {
     this.screenshot = this.refs.webcam.getScreenshot()
     setTimeout(() => this.mediaRecorder.stop(), 5000)
     this.mediaRecorder.onstop = (e) => {
+      this.setState({
+        isRecording: false
+      })
       console.log("record stoppted")
       let blob = new Blob(this.chunks, { "type" : "video/webm" })
       this.chunks = []
@@ -183,20 +203,18 @@ class VideoList extends React.Component {
 
   render() {
     return (
-      <div className="col sm-12">
-        <button type="button" className="btn btn-default" onClick={this.refreshVideos.bind(this)}>
-          Refresh
-        </button>
+      <div>
+        <div className="col-sm-12">
+          <button type="button" className="col-sm-12 btn btn-default btn-lg" onClick={this.refreshVideos.bind(this)}>
+            <span className="icon-share"></span> Refresh
+          </button>
+        </div>
         {
           this.props.store.videos.map((video, i) => {
             return (
-              <div key={video.id}>
-                <h3>{video.filename}</h3>
-                <button type="button" className="btn btn-danger" onClick={this.deleteVideo.bind(this, video)}>
-                  Delete
-                </button>
-                <div className="col sm-2">
-                  <Video controls muted
+              <div key={video.id} className="col-sm-12 col-md-6">
+                <div className="col-sm-12">
+                  <Video className="col-sm-12 col-md-6" autoPlay={true} muted={true}
                     poster={"/api/Containers/video-container/download/" + video.filename}
                     onCanPlayThrough={() => {
                       // console.log("Can play")
@@ -204,6 +222,9 @@ class VideoList extends React.Component {
                   >
                     <source src={"/api/Containers/video-container/download/" + video.filename}  type="video/webm" />
                   </Video>
+                  <button type="button" className="btn btn-danger" onClick={this.deleteVideo.bind(this, video)}>
+                    <span className="icon-garbage"></span> Remove
+                  </button>
                 </div>
               </div>
             )
