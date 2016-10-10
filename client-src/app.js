@@ -85,7 +85,7 @@ class Videos extends React.Component {
     this.dropzone = new Dropzone("#my-awesome-dropzone", {
       url: "/api/Containers/video-container/upload",
       renameFilename: function (filename) {
-          return new Date().getTime() + "_" + ".webm";
+          return "_" + ".webm";
       }
     })
     this.dropzone.on("complete", (file) => videoStore.fetchVideos())
@@ -95,7 +95,7 @@ class Videos extends React.Component {
     return (
       <div className="container">
         <h2>Videos</h2>
-        <Webcam ref="webcam" screenshotFormat="image/jpeg" audio={false} muted={true} />
+        <Webcam ref="webcam" screenshotFormat="image/jpeg" audio={true} muted={true} />
         <button type="button" className="btn btn-default" onClick={this.startRecording.bind(this)}>Start recording</button>
         <button type="button" className="btn btn-default" onClick={this.stopRecording.bind(this)}>Stop recording</button>
         <form className="dropzone" id="my-awesome-dropzone"></form>
@@ -140,14 +140,16 @@ class Videos extends React.Component {
     this.chunks = []
     this.mediaRecorder.ondataavailable = (e) => this.chunks.push(e.data)
     this.mediaRecorder.start()
-
+    this.screenshot = this.refs.webcam.getScreenshot()
+    setTimeout(() => this.mediaRecorder.stop(), 5000)
     this.mediaRecorder.onstop = (e) => {
       console.log("record stoppted")
       let blob = new Blob(this.chunks, { "type" : "video/webm" })
       this.chunks = []
       let videoURL = window.URL.createObjectURL(blob)
-      // TODO: Ajouter une miniature de prev pour les videos
-      // this.dropzone.emit("thumbnail", {}, this.refs.webcam.getScreenshot())
+      this.dropzone.on("addedfile", (file) => {
+        this.dropzone.emit("thumbnail", file, this.screenshot)
+      })
       this.dropzone.addFile(blob)
     }
   }
@@ -194,10 +196,10 @@ class VideoList extends React.Component {
                   Delete
                 </button>
                 <div className="col sm-2">
-                  <Video controls autoPlay loop muted
+                  <Video controls muted
                     poster={"/api/Containers/video-container/download/" + video.filename}
                     onCanPlayThrough={() => {
-                      console.log("Can play")
+                      // console.log("Can play")
                     }}
                   >
                     <source src={"/api/Containers/video-container/download/" + video.filename}  type="video/webm" />
