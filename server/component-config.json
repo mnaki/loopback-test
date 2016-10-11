@@ -4,7 +4,7 @@
   },
   "loopback-component-auto-migrate": {
     "enabled": true,
-    "migration": "auto-migrate",
+    "migration": "auto-update",
     "fixtures": "./server/test/fixtures/"
   }
 }

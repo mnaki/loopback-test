@@ -5,8 +5,8 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node .",
-    "posttest": "npm run lint && nsp check",
-    "console": "loopback-console ."
+    "console": "loopback-console .",
+    "test": "node ./node_modules/mocha/bin/mocha -R spec --bail ./server/test/*.js"
   },
   "dependencies": {
     "async": "^2.0.1",
