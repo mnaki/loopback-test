@@ -10,6 +10,7 @@
     "test-watch": "node ./node_modules/mocha/bin/mocha --recursive -R min --bail ./server/test -w ./server/"
   },
   "dependencies": {
+    "animate.css": "^3.5.2",
     "api-http": "^1.2.1",
     "async": "^2.0.1",
     "babel": ">=6.0",

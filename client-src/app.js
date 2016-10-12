@@ -22,6 +22,8 @@ import "react-html5video/dist/ReactHtml5Video.css"
 
 import "./gonzocons.css"
 
+import "animate.css"
+
 window.cookie = cookie
 
 /****************************************/
@@ -104,7 +106,7 @@ class VideoPage extends React.Component {
 
   render() {
     return (
-      <div className="col-sm-12">
+      <div className="col-sm-12 animated slideInLeft">
 
         { currentToken.has("id") &&
           <div>
@@ -226,7 +228,7 @@ class VideoList extends React.Component {
         { currentToken.has("id") &&
           this.props.store.videos.map((video, i) => {
             return (
-              <div key={video.id} className="col-sm-12 col-md-6">
+              <div key={video.id} className="col-sm-12 col-md-6 animated bounce">
                 <div className="col-sm-12">
                   <Video autoPlay={true} muted={true}
                     poster={"/api/Containers/video-container/download/" + video.filename}
