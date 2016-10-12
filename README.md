@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/mnaki/loopback.svg?branch=master)](https://travis-ci.org/mnaki/loopback)
 ```
 - [  ok  ] Stocker des vidéos
 - [  ok  ] Enregistrer des vidéos
