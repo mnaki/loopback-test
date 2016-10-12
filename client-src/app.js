@@ -12,6 +12,7 @@ import "./dropzone/basic.min.css"
 import "./dropzone/dropzone.min.css"
 
 import {observable, observe, extendObservable} from "mobx"
+import {observer} from "mobx-react"
 
 import Webcam from "react-webcam"
 import Video from "react-html5video"
@@ -190,9 +191,9 @@ class VideoList extends React.Component {
   constructor(props) {
     super(props)
     props.store.fetchVideos()
-    observe(props.store.videos, (change) => {
-      this.forceUpdate()
-    })
+    // observe(props.store.videos, (change) => {
+    //   this.forceUpdate()
+    // })
   }
 
   refreshVideos() {
@@ -237,6 +238,8 @@ class VideoList extends React.Component {
   }
 
 }
+
+observer(VideoList)
 
 let NavBar = React.createClass({
   render: function () {
