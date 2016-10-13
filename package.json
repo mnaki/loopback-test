@@ -30,6 +30,7 @@
     "bootstrap-webpack": "0.0.5",
     "chai": "^3.5.0",
     "compression": "^1.0.3",
+    "cookie-parser": "^1.4.3",
     "cors": "^2.5.2",
     "css-loader": "^0.25.0",
     "eslint": "^2.13.1",

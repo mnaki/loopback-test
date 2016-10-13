@@ -21,12 +21,16 @@ export class VideoPage extends React.Component {
   componentDidMount() {
     if (currentToken.has('id')) {
       this.dropzone = new Dropzone("#my-awesome-dropzone", {
-      url: "/api/Containers/video-container/upload",
-      renameFilename: function (filename) {
-          return "_" + ".webm";
-      }
+        url: "/api/Containers/video-container/upload",
+        renameFilename: function (filename) {
+            return "_" + ".webm";
+        }
       })
       this.dropzone.on("complete", (file) => videoStore.fetchVideos())
+      this.dropzone.on('sending', function (file, xhr, formData) {
+        formData.append('token', JSON.stringify(currentToken.toJS()));
+        console.log(formData)
+      });
     }
   }
 
