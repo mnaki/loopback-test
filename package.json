@@ -6,8 +6,7 @@
     "lint": "eslint .",
     "start": "node .",
     "console": "loopback-console .",
-    "test": "node ./node_modules/mocha/bin/mocha --recursive -R nyan --bail ./server/test",
-    "test-watch": "node ./node_modules/mocha/bin/mocha --recursive -R min --bail ./server/test -w ./server/"
+    "test": "node ./node_modules/mocha/bin/mocha --recursive -R min --bail ./server/test"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
