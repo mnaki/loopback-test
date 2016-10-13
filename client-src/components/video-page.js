@@ -39,10 +39,8 @@ export class VideoPage extends React.Component {
       <div className="col-sm-12 animated slideInLeft">
 
         { currentToken.has("id") &&
-          <div>
+          <div className="row">
             <h2>Videos</h2>
-            <Webcam className="col-sm-12" ref="webcam" screenshotFormat="image/jpeg" audio={true} />
-
               { !this.state.isRecording &&
                 <button type="button" className="btn btn-default btn-lg" onClick={this.startRecording.bind(this)}>
                   <span className="icon-video"></span> Start
@@ -54,8 +52,15 @@ export class VideoPage extends React.Component {
                 </button>
               }
 
-            <div className="col-sm-12">
-              <form className="col-sm-12 dropzone" id="my-awesome-dropzone"></form>
+              
+                <Webcam ref="webcam" screenshotFormat="image/jpeg" muted={true} audio={true} />
+              
+            
+
+            <div className="row">
+              <div className="col-sm-12">
+                <form className="dropzone" id="my-awesome-dropzone"></form>
+              </div>
             </div>
             <VideoList store={videoStore} />
           </div>
@@ -149,29 +154,30 @@ class VideoList extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="col-sm-12">
-          <button type="button" className="col-sm-12 btn btn-default btn-lg" onClick={this.refreshVideos.bind(this)}>
-            <span className="icon-share"></span> Refresh
-          </button>
-        </div>
+      <div className="">
+        <button type="button" className="btn-default btn-lg" onClick={this.refreshVideos.bind(this)}>
+          <span className="icon-share"></span> Refresh
+        </button>
+        <br/>
         { currentToken.has("id") &&
           this.props.store.videos.map((video, i) => {
             return (
-              <div key={video.id} className="col-sm-12 col-md-6 animated bounce">
-                <div className="col-sm-12">
-                  <Video autoPlay={true} muted={true}
-                    poster={"/api/Containers/video-container/download/" + video.filename}
-                    onCanPlayThrough={() => {
-                      // console.log("Can play")
-                    }}
-                  >
-                    <source src={"/api/Containers/video-container/download/" + video.filename}  type="video/webm" />
-                  </Video>
-                  <button type="button" className="btn btn-danger" onClick={this.deleteVideo.bind(this, video)}>
-                    <span className="icon-garbage"></span> Remove
-                  </button>
+              <div key={video.id} className="col-md-6 animated bounce">
+                <div className="row">
+                  <div className="col-sm-12">
+                    <button type="button" className="btn btn-danger" onClick={this.deleteVideo.bind(this, video)}>
+                      <span className="icon-garbage"></span> Remove
+                    </button>
+                  </div>
                 </div>
+                <Video autoPlay={true} height="200" muted={true}
+                  poster={"/api/Containers/video-container/download/" + video.filename}
+                  onCanPlayThrough={() => {
+                    // console.log("Can play")
+                  }}
+                >
+                  <source src={"/api/Containers/video-container/download/" + video.filename}  type="video/webm" />
+                </Video>
               </div>
             )
           })

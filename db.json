@@ -1,13 +1,14 @@
 {
   "ids": {
-    "Video": 2,
+    "Video": 6,
     "ViewingPermission": 1,
     "Client": 1,
     "ClientToken": 1
   },
   "models": {
     "Video": {
-      "1": "{\"ownerId\":1,\"length\":0,\"size\":30345,\"isPublic\":true,\"filename\":\"9c2dc990-9126-11e6-bd84-dbbcfa196cbe.webm\",\"id\":1}"
+      "4": "{\"ownerId\":1,\"length\":0,\"size\":669732,\"isPublic\":true,\"filename\":\"1a9b6610-9128-11e6-bd84-dbbcfa196cbe.webm\",\"id\":4}",
+      "5": "{\"ownerId\":1,\"length\":0,\"size\":635651,\"isPublic\":true,\"filename\":\"2098c120-9128-11e6-bd84-dbbcfa196cbe.webm\",\"id\":5}"
     },
     "ViewingPermission": {},
     "Client": {},
