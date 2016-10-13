@@ -2,16 +2,18 @@
   "ids": {
     "Video": 6,
     "ViewingPermission": 1,
-    "Client": 1,
-    "ClientToken": 1
+    "Client": 2,
+    "ClientToken": 3
   },
   "models": {
-    "Video": {
-      "4": "{\"ownerId\":1,\"length\":0,\"size\":669732,\"isPublic\":true,\"filename\":\"1a9b6610-9128-11e6-bd84-dbbcfa196cbe.webm\",\"id\":4}",
-      "5": "{\"ownerId\":1,\"length\":0,\"size\":635651,\"isPublic\":true,\"filename\":\"2098c120-9128-11e6-bd84-dbbcfa196cbe.webm\",\"id\":5}"
-    },
+    "Video": {},
     "ViewingPermission": {},
-    "Client": {},
-    "ClientToken": {}
+    "Client": {
+      "1": "{\"username\":\"mdr@mdr.mdr\",\"password\":\"$2a$10$r2fILmxWzEoo3iY4xrVlJeRGoTkyjWqTSPRi6kGK2J59yD/cBeG2y\",\"email\":\"mdr@mdr.mdr\",\"id\":1}"
+    },
+    "ClientToken": {
+      "SK6MEDHdwipsWHdW1Q3E2MZFJsGKUPuLTtunQ3CZQrQzMxbfGUKmcn1GrBeVNASl": "{\"userId\":1,\"id\":\"SK6MEDHdwipsWHdW1Q3E2MZFJsGKUPuLTtunQ3CZQrQzMxbfGUKmcn1GrBeVNASl\",\"ttl\":1209600,\"created\":\"2016-10-13T13:44:59.672Z\"}",
+      "hl2sOMmTvyAoteqZkuqQgNoLPE8uF0YJxkSXB5E8Bz2vXcn29ryCOUZ6NhleHHjB": "{\"userId\":1,\"id\":\"hl2sOMmTvyAoteqZkuqQgNoLPE8uF0YJxkSXB5E8Bz2vXcn29ryCOUZ6NhleHHjB\",\"ttl\":1209600,\"created\":\"2016-10-13T13:46:17.260Z\"}"
+    }
   }
 }

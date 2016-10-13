@@ -3,18 +3,17 @@ var async = require('async');
 
 module.exports = function (Container) {
 	Container.afterRemote('upload', function(context, instance, next) {
-		async.each(instance.result.files, (file, cb) => {
-			console.log(context.req.cookies)
-			let obj = {
+		async.each(instance.result.files.file, (file, cb) => {
+			Container.app.models.Video.create({
 				"ownerId": JSON.parse(context.req.cookies.currentToken).userId,
 				"length": 0,
-				"size": file[0].size,
+				"size": 0,
 				"isPublic": true,
-				"filename": file[0].name
-			}
-			Container.app.models.Video.create(obj, cb)
-			console.log(obj)
+				"filename": '/api/Containers/video-container/download/' + file.name
+			}, cb)
+		}, function (err) {
+			if (err) console.log(err)
+			else next()
 		})
-		next()
 	})
 };

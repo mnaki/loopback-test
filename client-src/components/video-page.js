@@ -121,6 +121,7 @@ export class VideoPage extends React.Component {
       let blob = new Blob(this.chunks, { "type" : "video/webm" })
       this.chunks = []
       let videoURL = window.URL.createObjectURL(blob)
+      console.log('url', videoURL)
       this.dropzone.on("addedfile", (file) => {
         this.dropzone.emit("thumbnail", file, this.screenshot)
       })

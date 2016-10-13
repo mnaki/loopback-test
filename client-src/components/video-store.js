@@ -24,7 +24,7 @@ export class VideoStore {
     fetch(request).then((res) => {
       return res.json()
     }).then((res) => {
-      let request = new Request("/api/Containers/video-container/files/" + video.filename, {
+      let request = new Request(video.filename, {
         method: "DELETE",
         mode: "cors",
         redirect: "follow",

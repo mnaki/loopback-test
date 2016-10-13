@@ -49,7 +49,8 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    currentToken.merge(cookie.load('currentToken'))
+    let cook = cookie.load('currentToken') || {}
+    currentToken.merge(cook)
   }
 
   render() {
