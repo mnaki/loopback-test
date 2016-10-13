@@ -27,6 +27,7 @@ describe('Client model', function () {
 
   it('should find one client by id', function (done) {
     Client.find({where: {id: fixt.id, email: fixt.email}}, function (err, res) {
+      console.log(res)
       res[0].email.should.eql(fixt.email)
       done(err)
     })

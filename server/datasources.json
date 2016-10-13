@@ -1,18 +1,13 @@
 {
-  "mysql": {
-    "host": "178.62.198.176",
-    "port": 3306,
-    "url": "mysql://root:123456@178.62.198.176:3306/lb",
-    "database": "lb",
-    "password": "123456",
-    "name": "mysql",
-    "user": "root",
-    "connector": "mysql"
-  },
   "storage": {
     "name": "storage",
     "connector": "loopback-component-storage",
     "provider": "filesystem",
     "root": "./server/storage"
+  },
+  "db": {
+    "name": "db",
+    "connector": "memory",
+    "file": "db.json"
   }
 }

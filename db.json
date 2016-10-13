@@ -1,0 +1,20 @@
+{
+  "ids": {
+    "Video": 2,
+    "ViewingPermission": 1,
+    "Client": 2,
+    "ClientToken": 2
+  },
+  "models": {
+    "Video": {
+      "1": "{\"ownerId\":2,\"length\":0,\"size\":683767,\"isPublic\":true,\"filename\":\"55623c10-9119-11e6-b98e-39b1abbb890d.webm\",\"id\":1}"
+    },
+    "ViewingPermission": {},
+    "Client": {
+      "1": "{\"username\":\"lol@lol.com\",\"password\":\"$2a$10$mA36L8qr3Y4CH7Raa6vbXuAiM5l0abpSZodo8AhQvgmE0fU014KE.\",\"email\":\"lol@lol.com\",\"id\":1}"
+    },
+    "ClientToken": {
+      "urM3pWyVjBswFBevygAOSXWp08qkfRViSh5QfY9nB6cTH3IrDWOYBBn0c0yPC55g": "{\"userId\":1,\"id\":\"urM3pWyVjBswFBevygAOSXWp08qkfRViSh5QfY9nB6cTH3IrDWOYBBn0c0yPC55g\",\"ttl\":1209600,\"created\":\"2016-10-13T08:14:47.740Z\"}"
+    }
+  }
+}

@@ -14,11 +14,11 @@
     ]
   },
   "Client": {
-    "dataSource": "mysql",
+    "dataSource": "db",
     "public": true
   },
   "Video": {
-    "dataSource": "mysql",
+    "dataSource": "db",
     "public": true
   },
   "Container": {
@@ -26,11 +26,11 @@
     "public": true
   },
   "ViewingPermission": {
-    "dataSource": "mysql",
+    "dataSource": "db",
     "public": true
   },
   "ClientToken": {
-    "dataSource": "mysql",
+    "dataSource": "db",
     "public": true
   }
 }
