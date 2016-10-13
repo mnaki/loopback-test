@@ -21,3 +21,5 @@ server/storage/*
 _node_modules
 __node_modules
 npm-debug*
+db.json
+!server/storage/video-container/.keep
