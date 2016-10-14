@@ -50,9 +50,6 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-  }
-
-  componentWillMount() {
     if (cookie.load('rememberMe')) {
       currentUser.merge(cookie.load('currentUser') || {})
       window.currentUser = currentUser
@@ -60,6 +57,9 @@ class App extends React.Component {
       currentUser.clear()
       currentUser.merge({})
     }
+  }
+
+  componentWillMount() {
   }
 
   render() {

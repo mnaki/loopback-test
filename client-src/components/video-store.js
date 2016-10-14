@@ -1,4 +1,4 @@
-import {observable} from "mobx"
+import {observable, observe} from "mobx"
 
 export class VideoStore {
 
@@ -14,8 +14,7 @@ export class VideoStore {
   }
 
   fetchVideosByOwner(ownerId) {
-    console.log("/api/Client/videos/" + ownerId)
-    fetch("/api/Client/videos/" + ownerId).then((res) => {
+    fetch("/api/Clients/"+ownerId+"/videos").then((res) => {
       return res.json()
     }).then((res) => {
       this.videos.clear()
@@ -24,30 +23,14 @@ export class VideoStore {
   }
 
   deleteVIdeo(video) {
-    let request = new Request("/api/Videos/" + video.id, {
+    fetch("/api/Videos/" + video.id, {
       method: "DELETE",
       mode: "cors",
       redirect: "follow",
-      headers: new Headers({
-        "Content-Type": "text/json"
-      })
-    })
-    fetch(request).then((res) => {
-      return res.json()
+      headers: new Headers({ "Content-Type": "text/json" })
     }).then((res) => {
-      let request = new Request(video.filename, {
-        method: "DELETE",
-        mode: "cors",
-        redirect: "follow",
-        headers: new Headers({
-          "Content-Type": "text/json"
-        })
-      })
-      fetch(request).then((res) => {
-        return res.json()
-      })
-
-      this.videos.remove(video)
+      let v = this.videos.find((x) => x.id == video.id)
+      this.videos.remove(v)
     })
   }
 

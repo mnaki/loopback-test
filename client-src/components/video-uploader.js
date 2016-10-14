@@ -35,21 +35,32 @@ export class VideoUploader extends React.Component {
       <button type="button" className="btn btn-default btn-lg" onClick={this.startRecording.bind(this)}>
         <span className="icon-video"></span> Start
       </button>
+      
     const isNotRecording =
       <button type="button" className="btn btn-default btn-lg" onClick={this.stopRecording.bind(this)}>
         <span className="icon-check"></span> Stop
       </button>
+
     const loggedIn =
       <div className="row">
         <h2>Videos</h2>
+
+        <div className="embed-responsive embed-responsive-16by9" style={{ backgroundColor: '#000' }}>
+          <Webcam ref="webcam" screenshotFormat="image/jpeg" muted={true} audio={true} className="embed-responsive-item" />
+        </div>
+
+        <br />
         { this.state.isRecording ? isNotRecording : isRecording }
-        <Webcam ref="webcam" screenshotFormat="image/jpeg" muted={true} audio={true} />
+        <br />
+        <br />
+
         <div className="row">
           <div className="col-sm-12">
             <form className="dropzone" id="my-awesome-dropzone"></form>
           </div>
         </div>
       </div>
+
     const loggedOut = <h2>You must be logged in!</h2>
 
     return (
@@ -89,26 +100,22 @@ export class VideoUploader extends React.Component {
   }
 
   startRecording() {
-    console.log("start recording")
     this.setState({
       isRecording: true
     })
     this.mediaRecorder = new MediaRecorder(this.refs.webcam.stream)
-    console.log(this.mediaRecorder)
     this.chunks = []
     this.mediaRecorder.ondataavailable = (e) => this.chunks.push(e.data)
     this.mediaRecorder.start()
     this.screenshot = this.refs.webcam.getScreenshot()
-    setTimeout(() => this.mediaRecorder.stop(), 5000)
+    this.timeout = setTimeout(() => this.mediaRecorder.stop(), 5000)
     this.mediaRecorder.onstop = (e) => {
       this.setState({
         isRecording: false
       })
-      console.log("record stoppted")
       let blob = new Blob(this.chunks, { "type" : "video/webm" })
       this.chunks = []
       let videoURL = window.URL.createObjectURL(blob)
-      console.log('url', videoURL)
       this.dropzone.on("addedfile", (file) => {
         this.dropzone.emit("thumbnail", file, this.screenshot)
       })
@@ -117,8 +124,10 @@ export class VideoUploader extends React.Component {
   }
 
   stopRecording() {
-    console.log("stop recording")
-    this.mediaRecorder.stop()
+    if (this.state.isRecording)  {
+      clearTimeout(this.timeout)
+      this.mediaRecorder.stop()
+    }
   }
 
 }

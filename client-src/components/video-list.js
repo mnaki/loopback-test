@@ -9,11 +9,9 @@ export class VideoList extends React.Component {
 
   constructor(props) {
     super(props)
-    props.store.fetchVideos()
   }
 
-  refreshVideos() {
-    this.props.store.fetchVideos()
+  componentDidMount() {
   }
 
   deleteVideo(video) {
@@ -30,22 +28,17 @@ export class VideoList extends React.Component {
 
   eachVideo = (video, i) => {
     return (
-      <div key={video.id} className="col-md-6 animated bounce">
-        <div className="row">
-          <div className="col-sm-12">
-            <button type="button" className="btn btn-danger" onClick={this.deleteVideo.bind(this, video)}>
-              <span className="icon-garbage"></span> Remove
-            </button>
-          </div>
+      <div key={video.id} className="col-sm-12 col-md-4 animated bounce">
+        <br />
+        <div className="embed-responsive embed-responsive-16by9">
+          <Video autoPlay={false} height="200" poster={video.filename} loop={false} controls={true} className="embed-responsive-item">
+            <source src={video.filename} type="video/webm" />
+          </Video>
         </div>
-        <Video autoPlay={true} height="200" muted={true}
-          poster={video.filename}
-          onCanPlayThrough={() => {
-            // console.log("Can play")
-          }}
-        >
-          <source src={video.filename} type="video/webm" />
-        </Video>
+        <br />
+        <button type="button" className="btn btn-danger" onClick={this.deleteVideo.bind(this, video)}>
+          <span className="icon-garbage"></span> Remove
+        </button>
       </div>
     )
   }

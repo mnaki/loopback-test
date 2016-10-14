@@ -16,6 +16,10 @@ export class VideoPage extends React.Component {
     this.state = {}
   }
 
+  componentWillUpdate(np, ns) {
+    this.props.store.fetchVideos()
+  }
+
   render() {
     const loggedIn =
       <div>
@@ -30,3 +34,5 @@ export class VideoPage extends React.Component {
   }
 
 }
+
+observer(VideoPage)

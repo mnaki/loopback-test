@@ -12,10 +12,10 @@ export class MyVideosPage extends React.Component {
   }
 
   componentDidMount() {
+    videoStore.fetchVideosByOwner(currentUser.get('id'))
   }
 
   render() {
-    videoStore.fetchVideosByOwner(currentUser.get('username'))
     return (
       <div>
         <h2>My videos</h2>

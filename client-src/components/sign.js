@@ -107,7 +107,6 @@ export class SigninPage extends React.Component {
           token: token
         })
         cookie.save('currentUser', currentUser, { path: '/' });
-        console.log(rememberMe)
         cookie.save('rememberMe', (rememberMe == 'remember-me' ? true : false), { path: '/' });
       })
 
