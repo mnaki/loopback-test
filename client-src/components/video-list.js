@@ -28,7 +28,7 @@ export class VideoList extends React.Component {
 
   eachVideo = (video, i) => {
     return (
-      <div key={video.id} className="col-sm-12 col-md-4 animated bounce">
+      <div key={video.id} index={i} className="col-sm-12 col-md-4 animated bounce">
         <br />
         <div className="embed-responsive embed-responsive-16by9">
           <Video autoPlay={false} height="200" poster={video.filename} loop={false} controls={true} className="embed-responsive-item">
