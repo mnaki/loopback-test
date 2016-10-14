@@ -12,6 +12,14 @@ export class VideoStore {
     })
   }
 
+  fetchVideosByOwner(ownerId) {
+    fetch("/api/Client/videos").then((res) => {
+      return res.json()
+    }).then((res) => {
+      this.videos.replace(res)
+    })
+  }
+
   deleteVIdeo(video) {
     let request = new Request("/api/Videos/" + video.id, {
       method: "DELETE",

@@ -19,6 +19,7 @@ import {currentUser} from "./components/current-user"
 import {SigninPage, SignoutPage, SignupPage} from "./components/sign.js"
 import {VideoPage} from "./components/video-page.js"
 import {HomePage} from "./components/home-page.js"
+import {MyVideosPage} from "./components/my-videos-page"
 
 let NavBar = React.createClass({
   render: function () {
@@ -34,6 +35,7 @@ let NavBar = React.createClass({
             { !currentUser.has('token') && <li><Link to="/signup">Signup</Link></li> }
             { !currentUser.has('token') && <li><Link to="/signin">Signin</Link></li> }
             { currentUser.has('token') && <li><Link to="/signout">Signout</Link></li> }
+            { currentUser.has('token') && <li><Link to="/myvideos">My videos</Link></li> }
           </ul>
         </div>
       </nav>
@@ -87,6 +89,7 @@ ReactDOM.render(
       <Route path="signup" component={SignupPage}></Route>
       <Route path="signin" component={SigninPage}></Route>
       <Route path="videos" component={VideoPage}></Route>
+      <Route path="myvideos" component={MyVideosPage}></Route>
     </Route>
   </Router>,
   document.getElementById("app")
