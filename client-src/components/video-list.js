@@ -29,7 +29,6 @@ export class VideoList extends React.Component {
   }
 
   eachVideo = (video, i) => {
-    console.log(video)
     return (
       <div key={video.id} className="col-md-6 animated bounce">
         <div className="row">

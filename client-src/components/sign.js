@@ -78,7 +78,7 @@ export class SigninPage extends React.Component {
         <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={this.handleClick.bind(this)}>Sign in</button>
       </form>
 
-    const loggedOut = <h2>Welcome {currentUser.username}</h2>
+    const loggedOut = <h2>Welcome {currentUser.get('username')}</h2>
 
     return (
       <div className="col-sm-12">
@@ -94,14 +94,23 @@ export class SigninPage extends React.Component {
       "username": this.refs.username.value,
       "password": this.refs.password.value
     }, (token) => {
-      currentUser.clear()
-      currentUser.merge({
-        username: this.refs.username.value,
-        token: token
+
+
+      $.get("/api/Clients/findOne", {
+        username: this.refs.username.value
+      }, (user) => {
+        currentUser.clear()
+        currentUser.merge({
+          username: user.username,
+          id: user.id,
+          email: user.email,
+          token: token
+        })
+        cookie.save('currentUser', currentUser, { path: '/' });
+        console.log(rememberMe)
+        cookie.save('rememberMe', (rememberMe == 'remember-me' ? true : false), { path: '/' });
       })
-      cookie.save('currentUser', currentUser, { path: '/' });
-      console.log(rememberMe)
-      cookie.save('rememberMe', (rememberMe == 'remember-me' ? true : false), { path: '/' });
+
     })
   }
 }

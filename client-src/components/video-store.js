@@ -8,14 +8,17 @@ export class VideoStore {
     fetch("/api/Videos").then((res) => {
       return res.json()
     }).then((res) => {
+      this.videos.clear()
       this.videos.replace(res)
     })
   }
 
   fetchVideosByOwner(ownerId) {
-    fetch("/api/Client/videos").then((res) => {
+    console.log("/api/Client/videos/" + ownerId)
+    fetch("/api/Client/videos/" + ownerId).then((res) => {
       return res.json()
     }).then((res) => {
+      this.videos.clear()
       this.videos.replace(res)
     })
   }
@@ -50,5 +53,7 @@ export class VideoStore {
 
 }
 
+
 let videoStore = new VideoStore()
+
 export {videoStore}
