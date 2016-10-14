@@ -23,5 +23,4 @@ __node_modules
 npm-debug*
 db.json
 !server/storage/video-container/.keep
-.browse
-*
+.browse*
