@@ -5,7 +5,7 @@ export class VideoStore {
   videos = observable([])
 
   fetchVideos() {
-    fetch("/api/Videos").then((res) => {
+    fetch("/api/Videos?filter[include]=owner").then((res) => {
       return res.json()
     }).then((res) => {
       this.videos.clear()
@@ -14,7 +14,7 @@ export class VideoStore {
   }
 
   fetchVideosByOwner(ownerId) {
-    fetch("/api/Clients/"+ownerId+"/videos").then((res) => {
+    fetch("/api/Clients/"+ownerId+"/videos?filter[include]=owner").then((res) => {
       return res.json()
     }).then((res) => {
       this.videos.clear()

@@ -97,7 +97,7 @@ export class SigninPage extends React.Component {
 
 
       $.get("/api/Clients/findOne", {
-        username: this.refs.username.value
+        filter: { where: { username: this.refs.username.value } }
       }, (user) => {
         currentUser.clear()
         currentUser.merge({

@@ -24,7 +24,7 @@ export class VideoUploader extends React.Component {
             return "_" + ".webm";
         }
       })
-      this.dropzone.on("complete", (file) => videoStore.fetchVideos())
+      this.dropzone.on("complete", (file) => videoStore.fetchVideosByOwner(currentUser.get('id')))
       this.dropzone.on('sending', function (file, xhr, formData) {
       });
     }
@@ -35,7 +35,7 @@ export class VideoUploader extends React.Component {
       <button type="button" className="btn btn-default btn-lg" onClick={this.startRecording.bind(this)}>
         <span className="icon-video"></span> Start
       </button>
-      
+
     const isNotRecording =
       <button type="button" className="btn btn-default btn-lg" onClick={this.stopRecording.bind(this)}>
         <span className="icon-check"></span> Stop
@@ -45,20 +45,25 @@ export class VideoUploader extends React.Component {
       <div className="row">
         <h2>Videos</h2>
 
-        <div className="embed-responsive embed-responsive-16by9" style={{ backgroundColor: '#000' }}>
-          <Webcam ref="webcam" screenshotFormat="image/jpeg" muted={true} audio={true} className="embed-responsive-item" />
+        <div className="col-sm-12 col-md-6">
+          <div className="col-sm-12 embed-responsive embed-responsive-16by9" style={{ backgroundColor: '#000' }}>
+            <Webcam ref="webcam" screenshotFormat="image/jpeg" muted={true} audio={true} className="embed-responsive-item" />
+          </div>
+          <div className="row">
+            <div className="col-sm-12">
+              <br />
+              { this.state.isRecording ? isNotRecording : isRecording }
+              <br />
+            </div>
+          </div>
         </div>
 
-        <br />
-        { this.state.isRecording ? isNotRecording : isRecording }
-        <br />
-        <br />
-
-        <div className="row">
+        <div className="col-sm-12 col-md-6">
           <div className="col-sm-12">
             <form className="dropzone" id="my-awesome-dropzone"></form>
           </div>
         </div>
+
       </div>
 
     const loggedOut = <h2>You must be logged in!</h2>

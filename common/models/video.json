@@ -34,7 +34,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "owner": {
+      "type": "belongsTo",
+      "model": "Client",
+      "foreignKey": "ownerId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

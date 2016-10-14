@@ -15,7 +15,11 @@ export class VideoList extends React.Component {
   }
 
   deleteVideo(video) {
-    this.props.store.deleteVIdeo(video)
+    if (currentUser.get('id') != video.ownerId) {
+      alert('Not your video!')
+    } else {
+      this.props.store.deleteVIdeo(video)
+    }
   }
 
   render() {
