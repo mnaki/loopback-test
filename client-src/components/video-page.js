@@ -16,8 +16,8 @@ export class VideoPage extends React.Component {
     this.state = {}
   }
 
-  componentWillUpdate(np, ns) {
-    this.props.store.fetchVideos()
+  componentDidMount() {
+    videoStore.fetchVideos()
   }
 
   render() {
