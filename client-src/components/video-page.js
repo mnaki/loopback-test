@@ -3,7 +3,7 @@ import "../dropzone/basic.min.css"
 import "../dropzone/dropzone.min.css"
 import {observer} from "mobx-react"
 import {VideoStore, videoStore} from "./video-store.js"
-import {currentToken} from "./token.js"
+import {currentUser} from "./current-user"
 
 import Webcam from "react-webcam"
 import Video from "react-html5video"
@@ -19,7 +19,7 @@ export class VideoPage extends React.Component {
   }
 
   componentDidMount() {
-    if (currentToken.has('id')) {
+    if (currentUser.has('token')) {
       this.dropzone = new Dropzone("#my-awesome-dropzone", {
         url: "/api/Containers/video-container/upload",
         renameFilename: function (filename) {
@@ -28,46 +28,36 @@ export class VideoPage extends React.Component {
       })
       this.dropzone.on("complete", (file) => videoStore.fetchVideos())
       this.dropzone.on('sending', function (file, xhr, formData) {
-        formData.append('token', JSON.stringify(currentToken.toJS()));
-        console.log(formData)
       });
     }
   }
 
   render() {
+    const isRecording =
+      <button type="button" className="btn btn-default btn-lg" onClick={this.startRecording.bind(this)}>
+        <span className="icon-video"></span> Start
+      </button>
+    const isNotRecording =
+      <button type="button" className="btn btn-default btn-lg" onClick={this.stopRecording.bind(this)}>
+        <span className="icon-check"></span> Stop
+      </button>
+    const loggedIn =
+      <div className="row">
+        <h2>Videos</h2>
+        { this.state.isRecording ? isNotRecording : isRecording }
+        <Webcam ref="webcam" screenshotFormat="image/jpeg" muted={true} audio={true} />
+        <div className="row">
+          <div className="col-sm-12">
+            <form className="dropzone" id="my-awesome-dropzone"></form>
+          </div>
+        </div>
+        <VideoList store={videoStore} />
+      </div>
+    const loggedOut = <h2>You must be logged in!</h2>
+
     return (
       <div className="col-sm-12 animated slideInLeft">
-
-        { currentToken.has("id") &&
-          <div className="row">
-            <h2>Videos</h2>
-              { !this.state.isRecording &&
-                <button type="button" className="btn btn-default btn-lg" onClick={this.startRecording.bind(this)}>
-                  <span className="icon-video"></span> Start
-                </button>
-              }
-              { !!this.state.isRecording &&
-                <button type="button" className="btn btn-default btn-lg" onClick={this.stopRecording.bind(this)}>
-                  <span className="icon-check"></span> Stop
-                </button>
-              }
-
-              
-                <Webcam ref="webcam" screenshotFormat="image/jpeg" muted={true} audio={true} />
-              
-            
-
-            <div className="row">
-              <div className="col-sm-12">
-                <form className="dropzone" id="my-awesome-dropzone"></form>
-              </div>
-            </div>
-            <VideoList store={videoStore} />
-          </div>
-        }
-        { !currentToken.has("id") &&
-          <h2>You must be logged in!</h2>
-        }
+        { currentUser.has("token") ? loggedIn : loggedOut }
       </div>
     )
   }
@@ -160,29 +150,30 @@ class VideoList extends React.Component {
           <span className="icon-share"></span> Refresh
         </button>
         <br/>
-        { currentToken.has("id") &&
-          this.props.store.videos.map((video, i) => {
-            return (
-              <div key={video.id} className="col-md-6 animated bounce">
-                <div className="row">
-                  <div className="col-sm-12">
-                    <button type="button" className="btn btn-danger" onClick={this.deleteVideo.bind(this, video)}>
-                      <span className="icon-garbage"></span> Remove
-                    </button>
-                  </div>
-                </div>
-                <Video autoPlay={true} height="200" muted={true}
-                  poster={"/api/Containers/video-container/download/" + video.filename}
-                  onCanPlayThrough={() => {
-                    // console.log("Can play")
-                  }}
-                >
-                  <source src={"/api/Containers/video-container/download/" + video.filename}  type="video/webm" />
-                </Video>
-              </div>
-            )
-          })
-        }
+        { currentUser.has("token") && this.props.store.videos.map(this.eachVideo.bind(this)) }
+      </div>
+    )
+  }
+
+  eachVideo = (video, i) => {
+    console.log(video)
+    return (
+      <div key={video.id} className="col-md-6 animated bounce">
+        <div className="row">
+          <div className="col-sm-12">
+            <button type="button" className="btn btn-danger" onClick={this.deleteVideo.bind(this, video)}>
+              <span className="icon-garbage"></span> Remove
+            </button>
+          </div>
+        </div>
+        <Video autoPlay={true} height="200" muted={true}
+          poster={video.filename}
+          onCanPlayThrough={() => {
+            // console.log("Can play")
+          }}
+        >
+          <source src={video.filename} type="video/webm" />
+        </Video>
       </div>
     )
   }

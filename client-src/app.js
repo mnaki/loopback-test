@@ -15,7 +15,7 @@ import "./gonzocons.css"
 
 import "animate.css"
 
-import {currentToken} from "./components/token.js"
+import {currentUser} from "./components/current-user"
 import {SigninPage, SignoutPage, SignupPage} from "./components/sign.js"
 import {VideoPage} from "./components/video-page.js"
 import {HomePage} from "./components/home-page.js"
@@ -31,15 +31,17 @@ let NavBar = React.createClass({
           <ul className="nav navbar-nav">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/videos">Videos</Link></li>
-            <li><Link to="/signup">Signup</Link></li>
-            <li><Link to="/signin">Signin</Link></li>
-            <li><Link to="/signout">Signout</Link></li>
+            { !currentUser.has('token') && <li><Link to="/signup">Signup</Link></li> }
+            { !currentUser.has('token') && <li><Link to="/signin">Signin</Link></li> }
+            { currentUser.has('token') && <li><Link to="/signout">Signout</Link></li> }
           </ul>
         </div>
       </nav>
     )
   }
 })
+
+observer(NavBar)
 
 class App extends React.Component {
 
@@ -49,8 +51,13 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    let cook = cookie.load('currentToken') || {}
-    currentToken.merge(cook)
+    if (cookie.load('rememberMe')) {
+      currentUser.merge(cookie.load('currentUser') || {})
+      window.currentUser = currentUser
+    } else {
+      currentUser.clear()
+      currentUser.merge({})
+    }
   }
 
   render() {

@@ -3,7 +3,7 @@
     "mountPath": "/explorer"
   },
   "loopback-component-auto-migrate": {
-    "enabled": true,
+    "enabled": false,
     "migration": "auto-migrate-data",
     "fixtures": "./server/test/fixtures/"
   }

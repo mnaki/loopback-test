@@ -40,7 +40,7 @@ export class VideoStore {
     })
   }
 
-} 
+}
 
 let videoStore = new VideoStore()
 export {videoStore}
